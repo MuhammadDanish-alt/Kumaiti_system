@@ -1,0 +1,5 @@
+Date,Type,Person,Email,Amount,Purpose,Notes
+2026-09-01,Received,Ali,ali@example.com,50000,Monthly payment,Test
+2026-09-05,Received,Sara,sara@example.com,75000,Monthly payment,Test
+2026-09-10,Expense,Office,,10000,Electricity,Test
+2026-09-15,Expense,Office,,5000,Stationery,Test
