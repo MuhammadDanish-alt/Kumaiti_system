@@ -596,7 +596,65 @@ span,
 
 
 /* ============================================================
-   TABS
+   SIDEBAR NAVIGATION MENU
+   ============================================================ */
+
+[data-testid="stSidebar"] div[role="radiogroup"] {
+
+    gap: 6px !important;
+
+}
+
+[data-testid="stSidebar"] div[role="radiogroup"] label {
+
+    background: rgba(255,255,255,0.04) !important;
+
+    border: 1px solid rgba(255,255,255,0.08) !important;
+
+    border-radius: 10px !important;
+
+    padding: 10px 14px !important;
+
+    width: 100%;
+
+    transition: all 0.2s ease;
+
+}
+
+[data-testid="stSidebar"] div[role="radiogroup"] label:hover {
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0,200,83,0.18),
+            rgba(0,200,83,0.06)
+        ) !important;
+
+    border-color: rgba(0,200,83,0.35) !important;
+
+    transform: translateX(2px);
+
+}
+
+[data-testid="stSidebar"] div[role="radiogroup"] label > div:first-child {
+
+    background-color: #00C853 !important;
+
+}
+
+[data-testid="stSidebar"] div[role="radiogroup"] p {
+
+    font-size: 14px !important;
+
+    font-weight: 600 !important;
+
+    color: #FFFFFF !important;
+
+}
+
+
+/* ============================================================
+   TABS  (kept for the Excel multi-sheet sub-tabs)
    ============================================================ */
 
 .stTabs [data-baseweb="tab-list"] {
@@ -1022,8 +1080,6 @@ textarea {
 """, unsafe_allow_html=True)
 
 
-
-
 st.markdown("""
 <div class="main-title-container">
     <h1>
@@ -1033,6 +1089,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ==========================================
+
 # --- 2. TEXT / NUMBER HELPERS -------------
 # ==========================================
 URDU_DIGITS = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789")
@@ -1655,17 +1712,14 @@ def init_db():
     """)
     cursor.execute("SELECT COUNT(*) FROM notification_users")
     if cursor.fetchone()[0] == 0:
+        # Only one real, working address is seeded by default. The two placeholder
+        # @kumaitu.com addresses previously seeded here always bounce (that domain
+        # does not exist), and on Streamlit Cloud this table resets on every
+        # restart - so they kept silently reappearing and causing failed sends.
+        # Add any additional real users yourself in the User Directory tab.
         cursor.execute(
             "INSERT INTO notification_users (name, email, role, active) VALUES (?, ?, ?, ?)",
             ("Muhammad DANISH", "danishzamord@gmail.com", "Administrator", 1),
-        )
-        cursor.execute(
-            "INSERT INTO notification_users (name, email, role, active) VALUES (?, ?, ?, ?)",
-            ("Finance Admin", "admin@kumaitu.com", "Finance Manager", 1),
-        )
-        cursor.execute(
-            "INSERT INTO notification_users (name, email, role, active) VALUES (?, ?, ?, ?)",
-            ("Auditor User", "audit@kumaitu.com", "Auditor", 1),
         )
     conn.commit()
     conn.close()
@@ -2120,7 +2174,59 @@ def handle_workbook_upload(uploaded):
 # --- 6. SIDEBAR ---------------------------
 # ==========================================
 with st.sidebar:
+    # --- CSS for identical box sizes and rounded edges ---
+    st.markdown(
+        """
+        <style>
+        /* Force container and labels to span full sidebar width */
+        div[data-testid="stRadio"] {
+            width: 100% !important;
+        }
+        div[data-testid="stRadio"] > div {
+            width: 100% !important;
+        }
+        
+        /* Style individual radio option cards */
+        div[data-testid="stRadio"] label[data-baseweb="radio"] {
+            width: 100% !important;
+            height: 60px !important;            /* Equal fixed height for all boxes */
+            border-radius: 12px !important;     /* Smooth rounded corners */
+            border: 1px solid #374151 !important;/* Subtle border */
+            background-color: #1F2937 !important;/* Matching box background */
+            padding: 10px 14px !important;
+            margin-bottom: 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            box-sizing: border-box !important;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Hover effect for interactive feedback */
+        div[data-testid="stRadio"] label[data-baseweb="radio"]:hover {
+            border-color: #4B5563 !important;
+            background-color: #374151 !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    st.markdown("---")
     st.markdown("## ⚙️ Workspace Control")
+    st.markdown("## 🧭 Navigate")
+    
+    st.radio(
+        "Navigate",
+        [
+            "📋 Data Sheet Manager",
+            "📈 Interactive Dashboard",
+            "📂 Excel Workbooks & OCR Scanner",
+            "👥 User Directory",
+            "⚙️ System Preferences & Audit Logs",
+        ],
+        key="main_nav_choice",
+        label_visibility="collapsed",
+    )
     st.markdown("---")
 
     if st.session_state.loaded_sheets:
@@ -2146,14 +2252,14 @@ with st.sidebar:
     else:
         st.warning("No Excel workbook loaded. Working with local SQLite Database.")
 
-    st.markdown("---")
-    st.markdown("### 📌 Quick Actions")
-    if st.button("🔄 Reload Local DB Data", use_container_width=True):
+
+    
+    if st.button(" Reload Local DB Data", use_container_width=True):
         bump_editor_key()
         st.rerun()
 
     if st.session_state.loaded_sheets:
-        if st.button("🗑️ Clear Uploaded Workbook", use_container_width=True):
+        if st.button(" Clear Uploaded Workbook", use_container_width=True):
             st.session_state.loaded_sheets = {}
             st.session_state.sheet_versions = {}
             st.session_state.file_name = ""
@@ -2243,20 +2349,21 @@ if st.session_state.get("pending_notifications"):
             render_notification_prompt()
 
 # ==========================================
-# --- 7. MAIN NAVIGATION TABS --------------
+# --- 7. MAIN NAVIGATION (SIDEBAR MENU) ----
 # ==========================================
-tabs = st.tabs([
+NAV_SECTIONS = [
     "📋 Data Sheet Manager",
     "📈 Interactive Dashboard",
     "📂 Excel Workbooks & OCR Scanner",
     "👥 User Directory",
-    "⚙️ System Preferences & Audit Logs"
-])
+    "⚙️ System Preferences & Audit Logs",
+]
+nav_choice = st.session_state.get("main_nav_choice", NAV_SECTIONS[0])
 
 # ==============================================================================
-# --- TAB 1: DATA SHEET & ENTRY MANAGEMENT ------------------------------------
+# --- SECTION 1: DATA SHEET & ENTRY MANAGEMENT --------------------------------
 # ==============================================================================
-with tabs[0]:
+if nav_choice == NAV_SECTIONS[0]:
     st.subheader("📋 Data Sheet & Entry Management Engine")
 
     has_excel = len(st.session_state.loaded_sheets) > 0
@@ -2294,12 +2401,12 @@ with tabs[0]:
                         formatted[k] = str(v).strip() if v else ""
                 add_db_entry(formatted)
                 bump_editor_key()
-                flash("✅ Record written to SQLite Database.")
+                flash("Record written to SQLite Database.")
                 auto_notify_new_row("SQLite Database", formatted)
                 st.rerun()
 
         st.markdown("---")
-        st.markdown("### 📄 Active Database Records — Full CRUD")
+        st.markdown("Active Database Records")
         st.caption(
             "Edit any existing cell, add a new row at the bottom, or tick 🗑️ Delete. "
             "Nothing is permanently changed until you press Save Changes Permanently."
@@ -2415,9 +2522,9 @@ with tabs[0]:
             render_sheet_grid(active_sheet_name, "t1")
 
 # ==============================================================================
-# --- TAB 2: INTERACTIVE DASHBOARD --------------------------------------------
+# --- SECTION 2: INTERACTIVE DASHBOARD ----------------------------------------
 # ==============================================================================
-with tabs[1]:
+elif nav_choice == NAV_SECTIONS[1]:
     st.subheader("📈 Interactive Dashboard & Financial Analytics")
 
     db_df = get_entries_df()
@@ -2605,9 +2712,9 @@ with tabs[1]:
         st.dataframe(filtered_df[available_cols], use_container_width=True, hide_index=True)
 
 # ==============================================================================
-# --- TAB 3: MULTI-SHEET EXCEL LOADER & OCR SCANNER ---------------------------
+# --- SECTION 3: MULTI-SHEET EXCEL LOADER & OCR SCANNER -----------------------
 # ==============================================================================
-with tabs[2]:
+elif nav_choice == NAV_SECTIONS[2]:
     st.subheader("📂 Multi-Sheet Excel Manager & OCR Scanner")
     st.caption("Import complex Excel files with multiple tabs or scan receipt images to extract data directly.")
 
@@ -2709,9 +2816,9 @@ with tabs[2]:
                             st.rerun()
 
 # ==============================================================================
-# --- TAB 4: USER DIRECTORY & NOTIFICATIONS -----------------------------------
+# --- SECTION 4: USER DIRECTORY & NOTIFICATIONS -------------------------------
 # ==============================================================================
-with tabs[3]:
+elif nav_choice == NAV_SECTIONS[3]:
     st.subheader("👥 User Notification Directory & Roles")
     st.caption("Manage system users, email addresses for notification alerts, and access roles.")
 
@@ -2756,9 +2863,9 @@ with tabs[3]:
                 st.warning("Please select at least one recipient.")
 
 # ==============================================================================
-# --- TAB 5: SYSTEM PREFERENCES & AUDIT LOGS ----------------------------------
+# --- SECTION 5: SYSTEM PREFERENCES & AUDIT LOGS ------------------------------
 # ==============================================================================
-with tabs[4]:
+elif nav_choice == NAV_SECTIONS[4]:
     st.subheader("⚙️ System Preferences & Audit Log Trail")
     st.caption("Configure environment rules and monitor operational activity logs.")
 
