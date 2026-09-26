@@ -29,6 +29,13 @@ try:
     HAS_PLOTLY = True
 except ImportError:
     HAS_PLOTLY = False
+import streamlit as st
+from st_supabase_connection import SupabaseConnection
+
+# Initialize Supabase connection using secrets
+supabase_conn = st.connection("supabase", type=SupabaseConnection)
+
+
 
 # ==========================================
 # --- 1. PAGE CONFIGURATION & STYLING ------
