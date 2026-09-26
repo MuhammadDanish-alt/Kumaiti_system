@@ -41,52 +41,1033 @@ st.set_page_config(
 )
 
 st.markdown("""
-    <style>
-    .stApp { background-color: #f8f9fa; }
+<style>
+
+/* ============================================================
+   KUMAITU PROFESSIONAL 3D THEME
+   ============================================================ */
+
+/* ---------- ROOT APPLICATION ---------- */
+
+.stApp {
+    background:
+        radial-gradient(circle at 10% 10%, rgba(0, 200, 255, 0.08), transparent 25%),
+        radial-gradient(circle at 90% 20%, rgba(120, 60, 255, 0.08), transparent 25%),
+        radial-gradient(circle at 50% 100%, rgba(0, 255, 150, 0.06), transparent 30%),
+        #080B12 !important;
+
+    color: #FFFFFF !important;
+
+    min-height: 100vh;
+
+    animation: backgroundPulse 12s ease-in-out infinite alternate;
+}
+
+
+/* ---------- ANIMATED BACKGROUND ---------- */
+
+[data-testid="stAppViewContainer"] {
+    background:
+        linear-gradient(
+            120deg,
+            #080B12,
+            #0D1620,
+            #09131A,
+            #0B0D18
+        ) !important;
+
+    background-size: 400% 400% !important;
+
+    animation: gradientMove 18s ease infinite;
+
+    color: #FFFFFF !important;
+}
+
+@keyframes gradientMove {
+
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+
+}
+
+@keyframes backgroundPulse {
+
+    from {
+        filter: brightness(0.95);
+    }
+
+    to {
+        filter: brightness(1.05);
+    }
+
+}
+
+
+/* ---------- HEADER ---------- */
+
+[data-testid="stHeader"] {
+    background: rgba(8, 11, 18, 0.85) !important;
+
+    backdrop-filter: blur(15px);
+
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+
+/* ---------- SIDEBAR ---------- */
+
+[data-testid="stSidebar"] {
+
+    background:
+        linear-gradient(
+            180deg,
+            #10141E,
+            #0A0D14
+        ) !important;
+
+    border-right: 1px solid rgba(255,255,255,0.08);
+
+    box-shadow:
+        8px 0 30px rgba(0,0,0,0.35);
+}
+
+[data-testid="stSidebar"] > div {
+
+    background: transparent !important;
+
+}
+
+
+/* ---------- GENERAL TEXT ---------- */
+
+body,
+p,
+label,
+span,
+.stMarkdown {
+
+    color: #FFFFFF !important;
+
+}
+
+
+/* ============================================================
+   MAIN TITLE
+   ============================================================ */
+
+.main-title-container {
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #071C26 0%,
+            #103D4A 45%,
+            #162B4A 100%
+        );
+
+    padding: 28px 32px;
+
+    border-radius: 18px;
+
+    margin-bottom: 28px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+
+    transform-style: preserve-3d;
+
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+
+    animation: titleEntrance 0.8s ease-out;
+}
+
+
+.main-title-container:hover {
+
+    transform:
+        perspective(1000px)
+        rotateX(2deg)
+        rotateY(-2deg)
+        translateY(-4px);
+
+    box-shadow:
+        0 25px 55px rgba(0,0,0,0.55),
+        0 0 30px rgba(0,200,255,0.12);
+
+}
+
+
+/* Moving shine */
+
+.main-title-container::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.12),
+            transparent
+        );
+
+    transform: skewX(-25deg);
+
+    animation: shine 6s infinite;
+
+}
+
+
+@keyframes shine {
+
+    0% {
+        left: -120%;
+    }
+
+    45% {
+        left: 130%;
+    }
+
+    100% {
+        left: 130%;
+    }
+
+}
+
+
+@keyframes titleEntrance {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(-20px)
+            scale(0.98);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+.main-title-container h1 {
+
+    position: relative;
+
+    z-index: 2;
+
+    color: #FFFFFF !important;
+
+    font-family:
+        "Times New Roman",
+        Times,
+        serif;
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    margin: 0;
+
+    text-shadow:
+        0 2px 12px rgba(0,0,0,0.5);
+
+}
+
+
+/* ============================================================
+   3D METRIC CARDS
+   ============================================================ */
+
+.metric-card-container {
+
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 120px;
+
+    padding: 22px;
+
+    border-radius: 18px;
+
+    color: #FFFFFF !important;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow:
+
+        0 12px 25px rgba(0,0,0,0.35),
+
+        inset 0 1px 0
+        rgba(255,255,255,0.18);
+
+    transform:
+
+        perspective(1000px)
+        translateZ(0);
+
+    transition:
+
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+
+    animation:
+        cardEntrance 0.7s ease-out;
+
+}
+
+
+/* 3D hover */
+
+.metric-card-container:hover {
+
+    transform:
+
+        perspective(1000px)
+        rotateX(5deg)
+        rotateY(-5deg)
+        translateY(-8px)
+        scale(1.02);
+
+    box-shadow:
+
+        0 25px 45px rgba(0,0,0,0.5),
+
+        0 0 25px rgba(0,200,255,0.12);
+
+}
+
+
+/* Animated shine */
+
+.metric-card-container::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: -150%;
+
+    width: 80%;
+
+    height: 100%;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,0.18),
+            transparent
+        );
+
+    transform: skewX(-25deg);
+
+    animation: cardShine 7s infinite;
+
+}
+
+
+@keyframes cardShine {
+
+    0% {
+        left: -150%;
+    }
+
+    35% {
+        left: 150%;
+    }
+
+    100% {
+        left: 150%;
+    }
+
+}
+
+
+@keyframes cardEntrance {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(25px)
+            scale(0.96);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+    }
+
+}
+
+
+/* ---------- CARD COLORS ---------- */
+
+.card-bg-1 {
+
+    background:
+        linear-gradient(
+            135deg,
+            #123A70,
+            #1976D2
+        );
+
+}
+
+
+.card-bg-2 {
+
+    background:
+        linear-gradient(
+            135deg,
+            #087F73,
+            #18C78D
+        );
+
+}
+
+
+.card-bg-3 {
+
+    background:
+        linear-gradient(
+            135deg,
+            #A51F47,
+            #F0445F
+        );
+
+}
+
+
+.card-bg-4 {
+
+    background:
+        linear-gradient(
+            135deg,
+            #5520A8,
+            #8748E8
+        );
+
+}
+
+
+.card-bg-5 {
+
+    background:
+        linear-gradient(
+            135deg,
+            #A95E18,
+            #E4B83E
+        );
+
+}
+
+
+.card-bg-6 {
+
+    background:
+        linear-gradient(
+            135deg,
+            #006A89,
+            #00A9D6
+        );
+
+}
+
+
+.card-bg-7 {
+
+    background:
+        linear-gradient(
+            135deg,
+            #16864B,
+            #28D9A0
+        );
+
+}
+
+
+.card-bg-8 {
+
+    background:
+        linear-gradient(
+            135deg,
+            #A93D76,
+            #EBCB4D
+        );
+
+}
+
+
+/* ---------- CARD TEXT ---------- */
+
+.metric-card-title {
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    color: #FFFFFF !important;
+
+    opacity: 0.9;
+
+}
+
+
+.metric-card-value {
+
+    font-size: 28px;
+
+    font-weight: 800;
+
+    line-height: 1.2;
+
+    color: #FFFFFF !important;
+
+    text-shadow:
+        0 2px 8px rgba(0,0,0,0.3);
+
+}
+
+
+.metric-card-sub {
+
+    font-size: 11px;
+
+    margin-top: 6px;
+
+    color: #FFFFFF !important;
+
+    opacity: 0.8;
+
+}
+
+
+/* ============================================================
+   TABS
+   ============================================================ */
+
+.stTabs [data-baseweb="tab-list"] {
+
+    gap: 8px;
+
+    background: transparent !important;
+
+}
+
+
+.stTabs [data-baseweb="tab"] {
+
+    background:
+        rgba(38,39,48,0.8) !important;
+
+    color: #D9E1EA !important;
+
+    border: 1px solid
+        rgba(255,255,255,0.08);
+
+    border-radius: 10px;
+
+    padding: 10px 18px;
+
+    transition:
+        all 0.3s ease;
+
+    box-shadow:
+        0 5px 12px rgba(0,0,0,0.2);
+
+}
+
+
+.stTabs [data-baseweb="tab"]:hover {
+
+    background:
+        rgba(0,200,83,0.15) !important;
+
+    color: #FFFFFF !important;
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+.stTabs [aria-selected="true"] {
+
+    background:
+        linear-gradient(
+            135deg,
+            #116530,
+            #00A86B
+        ) !important;
+
+    color: #FFFFFF !important;
+
+    box-shadow:
+        0 6px 18px
+        rgba(0,200,83,0.25);
+
+}
+
+
+/* ============================================================
+   INPUTS
+   ============================================================ */
+
+input,
+textarea,
+select {
+
+    background-color:
+        #171B25 !important;
+
+    color:
+        #FFFFFF !important;
+
+    border:
+        1px solid #343B49 !important;
+
+    border-radius:
+        8px !important;
+
+    transition:
+        all 0.25s ease;
+
+}
+
+
+input:focus,
+textarea:focus {
+
+    border-color:
+        #00C853 !important;
+
+    box-shadow:
+        0 0 0 2px
+        rgba(0,200,83,0.15) !important;
+
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.stButton > button {
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #17202B,
+            #263342
+        ) !important;
+
+    color:
+        #FFFFFF !important;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.12) !important;
+
+    border-radius:
+        9px !important;
+
+    font-weight:
+        600 !important;
+
+    box-shadow:
+        0 5px 15px
+        rgba(0,0,0,0.25);
+
+    transition:
+        all 0.3s ease;
+
+}
+
+
+.stButton > button:hover {
+
+    background:
+        linear-gradient(
+            135deg,
+            #00A84F,
+            #00C853
+        ) !important;
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(0,200,83,0.25);
+
+}
+
+
+/* ============================================================
+   DATAFRAME
+   ============================================================ */
+
+.stDataFrame {
+
+    border-radius:
+        12px;
+
+    overflow:
+        hidden;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.1);
+
+    box-shadow:
+        0 10px 25px
+        rgba(0,0,0,0.25);
+
+}
+
+
+/* ============================================================
+   EXPANDERS
+   ============================================================ */
+
+[data-testid="stExpander"] {
+
+    background:
+        rgba(20,24,34,0.8) !important;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.1) !important;
+
+    border-radius:
+        12px !important;
+
+    box-shadow:
+        0 8px 20px
+        rgba(0,0,0,0.2);
+
+    transition:
+        all 0.3s ease;
+
+}
+
+
+[data-testid="stExpander"]:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 12px 28px
+        rgba(0,0,0,0.35);
+
+}
+
+
+/* ============================================================
+   FILE UPLOADER
+   ============================================================ */
+
+[data-testid="stFileUploader"] {
+
+    background:
+        rgba(20,24,34,0.85) !important;
+
+    border:
+        1px dashed
+        #465061 !important;
+
+    border-radius:
+        14px !important;
+
+    padding:
+        10px;
+
+    transition:
+        all 0.3s ease;
+
+}
+
+
+[data-testid="stFileUploader"]:hover {
+
+    border-color:
+        #00C853 !important;
+
+    box-shadow:
+        0 0 20px
+        rgba(0,200,83,0.12);
+
+}
+
+
+/* ============================================================
+   ALERTS
+   ============================================================ */
+
+[data-testid="stAlert"] {
+
+    border-radius:
+        10px !important;
+
+    box-shadow:
+        0 6px 18px
+        rgba(0,0,0,0.2);
+
+}
+
+
+/* ============================================================
+   DIVIDERS
+   ============================================================ */
+
+hr {
+
+    border:
+        none !important;
+
+    height:
+        1px !important;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #34404F,
+            transparent
+        ) !important;
+
+    margin:
+        28px 0 !important;
+
+}
+
+
+/* ============================================================
+   URDU + ENGLISH
+   ============================================================ */
+
+input,
+textarea {
+
+    unicode-bidi:
+        plaintext;
+
+    font-family:
+        "Segoe UI",
+        "Noto Nastaliq Urdu",
+        "Jameel Noori Nastaleeq",
+        sans-serif;
+
+}
+
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar {
+
+    width:
+        9px;
+
+    height:
+        9px;
+
+}
+
+
+::-webkit-scrollbar-track {
+
+    background:
+        #080B12;
+
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    background:
+        #374151;
+
+    border-radius:
+        10px;
+
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background:
+        #00C853;
+
+}
+
+
+/* ============================================================
+   PAGE SPACING
+   ============================================================ */
+
+.block-container {
+
+    padding-top:
+        2rem;
+
+    padding-bottom:
+        4rem;
+
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+
     .main-title-container {
-        background: linear-gradient(90deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-        padding: 24px 30px; border-radius: 12px; color: white;
-        margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+        padding:
+            20px;
+
+        border-radius:
+            14px;
+
     }
-    .main-title-container h1 { color: #ffffff; font-weight: 700; font-size: 32px; margin: 0; padding-bottom: 5px; }
-    .main-title-container p { color: #e0e0e0; font-size: 14px; margin: 0; }
+
+    .main-title-container h1 {
+
+        font-size:
+            23px;
+
+    }
+
     .metric-card-container {
-        border-radius: 12px; padding: 20px 22px; color: white;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.12); margin-bottom: 20px; min-height: 110px;
-        display: flex; flex-direction: column; justify-content: center;
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+        min-height:
+            100px;
+
+        padding:
+            18px;
+
     }
-    .metric-card-container:hover { transform: translateY(-4px); box-shadow: 0 8px 18px rgba(0,0,0,0.2); }
-    .card-bg-1 { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); }
-    .card-bg-2 { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
-    .card-bg-3 { background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%); }
-    .card-bg-4 { background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%); }
-    .card-bg-5 { background: linear-gradient(135deg, #F2994A 0%, #F2C94C 100%); }
-    .card-bg-6 { background: linear-gradient(135deg, #00B4DB 0%, #0083B0 100%); }
-    .card-bg-7 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-    .card-bg-8 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-    .metric-card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.9; margin-bottom: 6px; }
-    .metric-card-value { font-size: 26px; font-weight: 800; line-height: 1.1; }
-    .metric-card-sub { font-size: 11px; opacity: 0.8; margin-top: 5px; }
-    hr { margin: 25px 0; border: none; height: 1px; background-color: #e0e0e0; }
-    .stTabs [data-baseweb="tab-list"] { gap: 8px; }
-    .stTabs [data-baseweb="tab"] {
-        height: 48px; white-space: pre-wrap; background-color: #ffffff; border-radius: 8px;
-        padding: 10px 18px; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+
+    .metric-card-value {
+
+        font-size:
+            23px;
+
     }
-    .stTabs [aria-selected="true"] { background-color: #1e3c72 !important; color: #ffffff !important; }
-    .block-container { padding-top: 2rem; padding-bottom: 3rem; }
-    .stDataFrame { border-radius: 8px; overflow: hidden; }
-    input, textarea { unicode-bidi: plaintext; font-family: "Segoe UI","Noto Nastaliq Urdu","Jameel Noori Nastaleeq",sans-serif; }
-    </style>
+
+}
+
+</style>
+""", unsafe_allow_html=True)
+st.markdown("""
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;">
+
+    <div class="metric-card-container card-bg-1">
+        <div class="metric-card-title">Cash Received</div>
+        <div class="metric-card-value">125,000</div>
+        <div class="metric-card-sub">Current Month</div>
+    </div>
+
+    <div class="metric-card-container card-bg-2">
+        <div class="metric-card-title">Expenses</div>
+        <div class="metric-card-value">25,000</div>
+        <div class="metric-card-sub">Current Month</div>
+    </div>
+
+    <div class="metric-card-container card-bg-3">
+        <div class="metric-card-title">Remaining</div>
+        <div class="metric-card-value">100,000</div>
+        <div class="metric-card-sub">Available Balance</div>
+    </div>
+
+    <div class="metric-card-container card-bg-4">
+        <div class="metric-card-title">Users</div>
+        <div class="metric-card-value">25</div>
+        <div class="metric-card-sub">Registered Users</div>
+    </div>
+
+</div>
 """, unsafe_allow_html=True)
 
+
+# ============================================================
+# PROFESSIONAL MAIN TITLE
+# ============================================================
+
+
+
+
+# =========================================================
+# MAIN TITLE
+# =========================================================
+
 st.markdown("""
-    <div class="main-title-container">
-        <h1 style="color: white; font-family: 'Times New Roman', Times, serif; font-weight: bold;">
-            Muhammad Saleem Transaction Track Record
-        </h1>
-    </div>
+<div class="main-title-container">
+    <h1>
+        Muhammad Saleem Transaction Track Record
+    </h1>
+</div>
 """, unsafe_allow_html=True)
 
 # ==========================================
