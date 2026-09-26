@@ -1020,47 +1020,9 @@ textarea {
 
 </style>
 """, unsafe_allow_html=True)
-st.markdown("""
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;">
-
-    <div class="metric-card-container card-bg-1">
-        <div class="metric-card-title">Cash Received</div>
-        <div class="metric-card-value">125,000</div>
-        <div class="metric-card-sub">Current Month</div>
-    </div>
-
-    <div class="metric-card-container card-bg-2">
-        <div class="metric-card-title">Expenses</div>
-        <div class="metric-card-value">25,000</div>
-        <div class="metric-card-sub">Current Month</div>
-    </div>
-
-    <div class="metric-card-container card-bg-3">
-        <div class="metric-card-title">Remaining</div>
-        <div class="metric-card-value">100,000</div>
-        <div class="metric-card-sub">Available Balance</div>
-    </div>
-
-    <div class="metric-card-container card-bg-4">
-        <div class="metric-card-title">Users</div>
-        <div class="metric-card-value">25</div>
-        <div class="metric-card-sub">Registered Users</div>
-    </div>
-
-</div>
-""", unsafe_allow_html=True)
-
-
-# ============================================================
-# PROFESSIONAL MAIN TITLE
-# ============================================================
 
 
 
-
-# =========================================================
-# MAIN TITLE
-# =========================================================
 
 st.markdown("""
 <div class="main-title-container">
